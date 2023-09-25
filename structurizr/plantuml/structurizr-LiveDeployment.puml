@@ -1,0 +1,171 @@
+@startuml
+set separator none
+title Main System - Deployment - live
+
+top to bottom direction
+
+skinparam {
+  shadowing false
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam rectangle<<live.KubernetesCluster.DeploymentMainApplication>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.OtherKubernetesCluster.Deploymentgit>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem1>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem2>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<live.OtherKubernetesCluster>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.DeploymentMainApplication.PodMainApplication>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.StatefulsetPgPool.PodPgPool>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.StatefulsetPostgres.PodPostgres>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.OtherKubernetesCluster.Deploymentgit.Podgit>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem1.Podsystem1>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem2.Podsystem2>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam database<<live.KubernetesCluster.StatefulsetPostgres.PodPostgres.ServerDatabase_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<live.KubernetesCluster.StatefulsetPgPool.PodPgPool.Serverpgpool_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<live.OtherKubernetesCluster.Deploymentgit.Podgit.Someexternalsystem_1>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam rectangle<<live.KubernetesCluster.StatefulsetPgPool>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.StatefulsetPostgres>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem1.Podsystem1.System1_1>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam rectangle<<live.KubernetesCluster.Deploymentsystem2.Podsystem2.System2_1>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+
+rectangle "Other Kubernetes Cluster\n<size:10>[Deployment Node: Kubernetes 1.24 or higher]</size>" <<live.OtherKubernetesCluster>> as live.OtherKubernetesCluster {
+  rectangle "Deployment git\n<size:10>[Deployment Node: mainContainer]</size>" <<live.OtherKubernetesCluster.Deploymentgit>> as live.OtherKubernetesCluster.Deploymentgit {
+    rectangle "Pod git\n<size:10>[Deployment Node: mainContainer]</size>" <<live.OtherKubernetesCluster.Deploymentgit.Podgit>> as live.OtherKubernetesCluster.Deploymentgit.Podgit {
+      rectangle "==Some external system\n<size:10>[Software System]</size>\n\nDoing something fun" <<live.OtherKubernetesCluster.Deploymentgit.Podgit.Someexternalsystem_1>> as live.OtherKubernetesCluster.Deploymentgit.Podgit.Someexternalsystem_1
+    }
+
+  }
+
+}
+
+rectangle "Kubernetes Cluster\n<size:10>[Deployment Node: Kubernetes 1.24 or higher]</size>" <<live.KubernetesCluster>> as live.KubernetesCluster {
+  rectangle "Deployment Main Application\n<size:10>[Deployment Node: mainContainer]</size>" <<live.KubernetesCluster.DeploymentMainApplication>> as live.KubernetesCluster.DeploymentMainApplication {
+    rectangle "Pod Main Application (x3)\n<size:10>[Deployment Node: mainContainer]</size>" <<live.KubernetesCluster.DeploymentMainApplication.PodMainApplication>> as live.KubernetesCluster.DeploymentMainApplication.PodMainApplication {
+      rectangle "==Main Container\n<size:10>[Container]</size>" <<live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1>> as live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1
+    }
+
+  }
+
+  rectangle "Deployment system1\n<size:10>[Deployment Node: system1]</size>" <<live.KubernetesCluster.Deploymentsystem1>> as live.KubernetesCluster.Deploymentsystem1 {
+    rectangle "Pod system1 (x3)\n<size:10>[Deployment Node: system1]</size>" <<live.KubernetesCluster.Deploymentsystem1.Podsystem1>> as live.KubernetesCluster.Deploymentsystem1.Podsystem1 {
+      rectangle "==System1\n<size:10>[Software System]</size>\n\nCreate something fun" <<live.KubernetesCluster.Deploymentsystem1.Podsystem1.System1_1>> as live.KubernetesCluster.Deploymentsystem1.Podsystem1.System1_1
+    }
+
+  }
+
+  rectangle "Deployment system2\n<size:10>[Deployment Node: system2]</size>" <<live.KubernetesCluster.Deploymentsystem2>> as live.KubernetesCluster.Deploymentsystem2 {
+    rectangle "Pod system2 (x6)\n<size:10>[Deployment Node: system2]</size>" <<live.KubernetesCluster.Deploymentsystem2.Podsystem2>> as live.KubernetesCluster.Deploymentsystem2.Podsystem2 {
+      rectangle "==System2\n<size:10>[Software System]</size>\n\nCreate something usefull" <<live.KubernetesCluster.Deploymentsystem2.Podsystem2.System2_1>> as live.KubernetesCluster.Deploymentsystem2.Podsystem2.System2_1
+    }
+
+  }
+
+  rectangle "Statefulset PgPool\n<size:10>[Deployment Node: PgPool]</size>" <<live.KubernetesCluster.StatefulsetPgPool>> as live.KubernetesCluster.StatefulsetPgPool {
+    rectangle "Pod PgPool (x3)\n<size:10>[Deployment Node: PgPooL]</size>" <<live.KubernetesCluster.StatefulsetPgPool.PodPgPool>> as live.KubernetesCluster.StatefulsetPgPool.PodPgPool {
+      rectangle "==Server pgpool\n<size:10>[Container]</size>" <<live.KubernetesCluster.StatefulsetPgPool.PodPgPool.Serverpgpool_1>> as live.KubernetesCluster.StatefulsetPgPool.PodPgPool.Serverpgpool_1
+    }
+
+  }
+
+  rectangle "Statefulset Postgres\n<size:10>[Deployment Node: postgres:15.4-bullseye]</size>" <<live.KubernetesCluster.StatefulsetPostgres>> as live.KubernetesCluster.StatefulsetPostgres {
+    rectangle "Pod Postgres (x3)\n<size:10>[Deployment Node: Database mainContainer]</size>" <<live.KubernetesCluster.StatefulsetPostgres.PodPostgres>> as live.KubernetesCluster.StatefulsetPostgres.PodPostgres {
+      database "==Server Database\n<size:10>[Container]</size>" <<live.KubernetesCluster.StatefulsetPostgres.PodPostgres.ServerDatabase_1>> as live.KubernetesCluster.StatefulsetPostgres.PodPostgres.ServerDatabase_1
+    }
+
+  }
+
+}
+
+live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1 .[#707070,thickness=2].> live.KubernetesCluster.StatefulsetPgPool.PodPgPool.Serverpgpool_1 : "<color:#707070>Reads from and writes to"
+live.KubernetesCluster.StatefulsetPgPool.PodPgPool.Serverpgpool_1 .[#707070,thickness=2].> live.KubernetesCluster.StatefulsetPostgres.PodPostgres.ServerDatabase_1 : "<color:#707070>Reads from and writes to"
+live.KubernetesCluster.Deploymentsystem1.Podsystem1.System1_1 .[#707070,thickness=2].> live.KubernetesCluster.Deploymentsystem2.Podsystem2.System2_1 : "<color:#707070>Read&Writes EHR Forms"
+live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1 .[#707070,thickness=2].> live.KubernetesCluster.Deploymentsystem2.Podsystem2.System2_1 : "<color:#707070>Read&Writes operational templates"
+live.KubernetesCluster.DeploymentMainApplication.PodMainApplication.MainContainer_1 .[#707070,thickness=2].> live.OtherKubernetesCluster.Deploymentgit.Podgit.Someexternalsystem_1 : "<color:#707070>fetch&commit"
+@enduml

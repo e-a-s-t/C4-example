@@ -1,0 +1,72 @@
+@startuml
+set separator none
+title Main System - Main Container - Components
+
+top to bottom direction
+
+skinparam {
+  shadowing false
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam component<<MainSystem.MainContainer.AccountsSummaryController>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+skinparam component<<MainSystem.MainContainer.EmailComponent>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+skinparam component<<MainSystem.MainContainer.Mainframe>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+skinparam component<<MainSystem.MainContainer.ResetPasswordController>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+skinparam component<<MainSystem.MainContainer.SecurityComponent>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+skinparam rectangle<<MainSystem.Serverpgpool>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<Someexternalsystem>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+
+rectangle "==Server pgpool\n<size:10>[Container]</size>" <<MainSystem.Serverpgpool>> as MainSystem.Serverpgpool
+rectangle "==Some external system\n<size:10>[Software System]</size>\n\nDoing something fun" <<Someexternalsystem>> as Someexternalsystem
+
+package "Main Container\n[Container]" <<MainSystem.MainContainer>> {
+  skinparam PackageBorderColor<<MainSystem.MainContainer>> #2e6295
+  skinparam PackageFontColor<<MainSystem.MainContainer>> #2e6295
+
+  component "==Accounts Summary Controller\n<size:10>[Component: Spring MVC Rest Controller]</size>\n\nProvides customers with a summary of their bank accounts." <<MainSystem.MainContainer.AccountsSummaryController>> as MainSystem.MainContainer.AccountsSummaryController
+  component "==Reset Password Controller\n<size:10>[Component: Spring MVC Rest Controller]</size>\n\nAllows users to reset their passwords with a single use URL." <<MainSystem.MainContainer.ResetPasswordController>> as MainSystem.MainContainer.ResetPasswordController
+  component "==Security Component\n<size:10>[Component: Spring Bean]</size>\n\nProvides functionality related to signing in, changing passwords, etc." <<MainSystem.MainContainer.SecurityComponent>> as MainSystem.MainContainer.SecurityComponent
+  component "==Mainframe\n<size:10>[Component: Spring Bean]</size>\n\nA facade onto the mainframe." <<MainSystem.MainContainer.Mainframe>> as MainSystem.MainContainer.Mainframe
+  component "==E-mail Component\n<size:10>[Component: Spring Bean]</size>\n\nSends e-mails to users." <<MainSystem.MainContainer.EmailComponent>> as MainSystem.MainContainer.EmailComponent
+}
+
+MainSystem.MainContainer.AccountsSummaryController .[#707070,thickness=2].> MainSystem.MainContainer.Mainframe : "<color:#707070>Uses"
+MainSystem.MainContainer.Mainframe .[#707070,thickness=2].> MainSystem.Serverpgpool : "<color:#707070>Reads from and writes to\n<color:#707070><size:8>[SQL/TCP]</size>"
+MainSystem.MainContainer.ResetPasswordController .[#707070,thickness=2].> MainSystem.MainContainer.SecurityComponent : "<color:#707070>Uses"
+MainSystem.MainContainer.SecurityComponent .[#707070,thickness=2].> MainSystem.Serverpgpool : "<color:#707070>Reads from and writes to\n<color:#707070><size:8>[SQL/TCP]</size>"
+MainSystem.MainContainer.EmailComponent .[#707070,thickness=2].> Someexternalsystem : "<color:#707070>Updates repository"
+@enduml

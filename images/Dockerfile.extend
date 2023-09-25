@@ -1,0 +1,2 @@
+FROM squidfunk/mkdocs-material
+RUN pip install mkdocs-macros-plugin mkdocs-mermaid2-plugin 

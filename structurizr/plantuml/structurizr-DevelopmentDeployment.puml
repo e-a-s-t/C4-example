@@ -1,0 +1,86 @@
+@startuml
+set separator none
+title Main System - Deployment - Development
+
+top to bottom direction
+
+skinparam {
+  shadowing false
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam rectangle<<Development.DeveloperLaptop>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockerContainerPGPool>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockerContainerPostgres>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockermainContainer>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockermainContainer.MainContainer_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockerContainerPGPool.PgPool>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockerContainerPostgres.Postgres>> {
+  BackgroundColor #ffffff
+  FontColor #000000
+  BorderColor #888888
+}
+skinparam database<<Development.DeveloperLaptop.DockerContainerPostgres.Postgres.ServerDatabase_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+skinparam rectangle<<Development.DeveloperLaptop.DockerContainerPGPool.PgPool.Serverpgpool_1>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+
+rectangle "Developer Laptop\n<size:10>[Deployment Node: Microsoft Windows 10 or Apple macOS]</size>" <<Development.DeveloperLaptop>> as Development.DeveloperLaptop {
+  rectangle "Docker Container PGPool\n<size:10>[Deployment Node: Generic PgPool image]</size>" <<Development.DeveloperLaptop.DockerContainerPGPool>> as Development.DeveloperLaptop.DockerContainerPGPool {
+    rectangle "PgPool\n<size:10>[Deployment Node: Pooling access to DB]</size>" <<Development.DeveloperLaptop.DockerContainerPGPool.PgPool>> as Development.DeveloperLaptop.DockerContainerPGPool.PgPool {
+      rectangle "==Server pgpool\n<size:10>[Container]</size>" <<Development.DeveloperLaptop.DockerContainerPGPool.PgPool.Serverpgpool_1>> as Development.DeveloperLaptop.DockerContainerPGPool.PgPool.Serverpgpool_1
+    }
+
+  }
+
+  rectangle "Docker Container Postgres\n<size:10>[Deployment Node: postgres:15.4-bullseye]</size>" <<Development.DeveloperLaptop.DockerContainerPostgres>> as Development.DeveloperLaptop.DockerContainerPostgres {
+    rectangle "Postgres\n<size:10>[Deployment Node: Database mainContainer]</size>" <<Development.DeveloperLaptop.DockerContainerPostgres.Postgres>> as Development.DeveloperLaptop.DockerContainerPostgres.Postgres {
+      database "==Server Database\n<size:10>[Container]</size>" <<Development.DeveloperLaptop.DockerContainerPostgres.Postgres.ServerDatabase_1>> as Development.DeveloperLaptop.DockerContainerPostgres.Postgres.ServerDatabase_1
+    }
+
+  }
+
+  rectangle "Docker mainContainer\n<size:10>[Deployment Node: mainContainer]</size>" <<Development.DeveloperLaptop.DockermainContainer>> as Development.DeveloperLaptop.DockermainContainer {
+    rectangle "==Main Container\n<size:10>[Container]</size>" <<Development.DeveloperLaptop.DockermainContainer.MainContainer_1>> as Development.DeveloperLaptop.DockermainContainer.MainContainer_1
+  }
+
+}
+
+Development.DeveloperLaptop.DockermainContainer.MainContainer_1 .[#707070,thickness=2].> Development.DeveloperLaptop.DockerContainerPGPool.PgPool.Serverpgpool_1 : "<color:#707070>Reads from and writes to"
+Development.DeveloperLaptop.DockerContainerPGPool.PgPool.Serverpgpool_1 .[#707070,thickness=2].> Development.DeveloperLaptop.DockerContainerPostgres.Postgres.ServerDatabase_1 : "<color:#707070>Reads from and writes to"
+@enduml

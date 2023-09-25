@@ -1,0 +1,85 @@
+@startuml
+set separator none
+title System Landscape for Enterprise
+
+top to bottom direction
+
+skinparam {
+  shadowing false
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam person<<Citizen>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam person<<Clinic>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam person<<Developer>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+}
+skinparam rectangle<<MainSystem>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+}
+skinparam person<<PlatformSpecialist>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam rectangle<<Someexternalsystem>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam person<<Specialist>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+}
+skinparam rectangle<<System1>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+skinparam rectangle<<System2>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+
+package "Enterprise" <<enterprise>> {
+  skinparam PackageBorderColor<<enterprise>> #444444
+  skinparam PackageFontColor<<enterprise>> #444444
+
+  rectangle "==System1\n<size:10>[Software System]</size>\n\nCreate something fun" <<System1>> as System1
+  rectangle "==System2\n<size:10>[Software System]</size>\n\nCreate something usefull" <<System2>> as System2
+  rectangle "==Main System\n<size:10>[Software System]</size>\n\nStanding on the shoulders of giants" <<MainSystem>> as MainSystem
+}
+
+person "==Clinic\n<size:10>[Person]</size>\n\nClinical user in healthcare" <<Clinic>> as Clinic
+person "==Citizen\n<size:10>[Person]</size>\n\nCitizen person fetching data" <<Citizen>> as Citizen
+person "==Specialist\n<size:10>[Person]</size>\n\nDomain specialist" <<Specialist>> as Specialist
+person "==Developer\n<size:10>[Person]</size>" <<Developer>> as Developer
+person "==Platform Specialist\n<size:10>[Person]</size>" <<PlatformSpecialist>> as PlatformSpecialist
+rectangle "==Some external system\n<size:10>[Software System]</size>\n\nDoing something fun" <<Someexternalsystem>> as Someexternalsystem
+
+MainSystem .[#707070,thickness=2].> System2 : "<color:#707070>Read&Writes operational templates"
+System1 .[#707070,thickness=2].> System2 : "<color:#707070>Read&Writes EHR Forms"
+MainSystem .[#707070,thickness=2].> Someexternalsystem : "<color:#707070>fetch&commit"
+Specialist .[#707070,thickness=2].> MainSystem : "<color:#707070>Uses"
+Developer .[#707070,thickness=2].> MainSystem : "<color:#707070>Uses"
+Clinic .[#707070,thickness=2].> System1 : "<color:#707070>Uses"
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+set separator none
+
+skinparam {
+  shadowing false
+  arrowFontSize 15
+  defaultTextAlignment center
+  wrapWidth 100
+  maxMessageSize 100
+}
+hide stereotype
+
+skinparam rectangle<<_transparent>> {
+  BorderColor transparent
+  BackgroundColor transparent
+  FontColor transparent
+}
+
+skinparam component<<1>> {
+  BackgroundColor #dddddd
+  FontColor #000000
+  BorderColor #9a9a9a
+}
+component "==Component" <<1>>
+
+skinparam rectangle<<2>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+}
+rectangle "==Container" <<2>>
+
+skinparam rectangle<<3>> {
+  BackgroundColor #999999
+  FontColor #ffffff
+  BorderColor #6b6b6b
+}
+rectangle "==Software System, outofscope" <<3>>
+
+rectangle "." <<_transparent>> as 4
+4 .[#707070,thickness=2].> 4 : "<color:#707070>Relationship"
+
+
+@enduml
